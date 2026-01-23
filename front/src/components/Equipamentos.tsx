@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Search, Edit2, Trash2, Monitor } from "lucide-react";
+// import { fetchEquipamentos } from "../api/equips";
 
 interface Equipamento {
   id: number;
@@ -18,21 +19,19 @@ export function Equipamentos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchEquipamentos();
+    const load = async () => {
+      try {
+        setLoading(true);
+        // const data = await fetchEquipamentos();
+        // setEquipamentos(data);
+      } catch (error) {
+        console.error("Erro ao buscar equipamentos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
-
-  const fetchEquipamentos = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("http://localhost:8080/equipamentos");
-      const data = await response.json();
-      setEquipamentos(data);
-    } catch (error) {
-      console.error("Erro ao buscar equipamentos:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredEquipamentos = equipamentos.filter((eq) =>
     Object.values(eq).some((value) =>

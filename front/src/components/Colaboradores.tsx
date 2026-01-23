@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+// import { fetchColaboradores } from "../api/colaboradores";
 import { Plus, Search, Edit2, Trash2, Mail, Phone } from "lucide-react";
 
 interface Colaborador {
@@ -19,21 +20,19 @@ export function Colaboradores() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchColaboradores();
+    const load = async () => {
+      try {
+        setLoading(true);
+        // const data = await fetchColaboradores();
+        // setColaboradores(data);
+      } catch (error) {
+        console.error("Erro ao buscar colaboradores:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
-
-  const fetchColaboradores = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("http://localhost:8080/colaboradores");
-      const data = await response.json();
-      setColaboradores(data);
-    } catch (error) {
-      console.error("Erro ao buscar colaboradores:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredColaboradores = colaboradores.filter((colab) =>
     Object.values(colab).some((value) =>

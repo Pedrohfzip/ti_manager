@@ -15,35 +15,33 @@ interface Licenca {
 }
 
 export function Licencas() {
-  const [licencas, setLicencas] = useState<Licenca[]>([]);
+  const [licencas, setLicencas] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [filterStatus, setFilterStatus] = useState<string>("Todas");
+  const [filterStatus, setFilterStatus] = useState("Todas");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchLicencas();
+    const load = async () => {
+      try {
+        setLoading(true);
+        // const data = await fetchLicencas();
+        // setLicencas(data);
+      } catch (error) {
+        console.error("Erro ao buscar licenças:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
-  const fetchLicencas = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("http://localhost:8080/licencas");
-      const data = await response.json();
-      setLicencas(data);
-    } catch (error) {
-      console.error("Erro ao buscar licenças:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const filteredLicencas = licencas.filter((lic) => {
-    const matchesSearch = Object.values(lic).some((value) =>
-      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    const matchesFilter = filterStatus === "Todas" || lic.status === filterStatus;
-    return matchesSearch && matchesFilter;
+    // const matchesSearch = Object.values(lic).some((value) =>
+    //   value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    // const matchesFilter = filterStatus === "Todas" || lic.status === filterStatus;
+    // return matchesSearch && matchesFilter;
   });
 
   const getStatusColor = (status: string) => {
@@ -74,13 +72,14 @@ export function Licencas() {
   };
 
   const stats = {
-    total: licencas.length,
-    ativas: licencas.filter((l) => l.status === "Ativa").length,
-    proximoVencimento: licencas.filter((l) => l.status === "Próximo ao Vencimento").length,
-    vencidas: licencas.filter((l) => l.status === "Vencida").length,
+    // total: licencas.length,
+    // ativas: licencas.filter((l) => l.status === "Ativa").length,
+    // proximoVencimento: licencas.filter((l) => l.status === "Próximo ao Vencimento").length,
+    // vencidas: licencas.filter((l) => l.status === "Vencida").length,
   };
 
   return (
+    <>
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
@@ -100,19 +99,19 @@ export function Licencas() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="text-gray-600 text-sm mb-1">Total de Licenças</div>
-          <div className="text-2xl font-bold text-gray-800">{stats.total}</div>
+          <div className="text-2xl font-bold text-gray-800">{stats?.total}</div>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="text-gray-600 text-sm mb-1">Ativas</div>
-          <div className="text-2xl font-bold text-green-600">{stats.ativas}</div>
+          <div className="text-2xl font-bold text-green-600">{stats?.ativas}</div>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="text-gray-600 text-sm mb-1">Próximo ao Vencimento</div>
-          <div className="text-2xl font-bold text-yellow-600">{stats.proximoVencimento}</div>
+          <div className="text-2xl font-bold text-yellow-600">{stats?.proximoVencimento}</div>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="text-gray-600 text-sm mb-1">Vencidas</div>
-          <div className="text-2xl font-bold text-red-600">{stats.vencidas}</div>
+          <div className="text-2xl font-bold text-red-600">{stats?.vencidas}</div>
         </div>
       </div>
 
@@ -353,5 +352,6 @@ export function Licencas() {
         </div>
       )}
     </div>
+    </>
   );
 }
