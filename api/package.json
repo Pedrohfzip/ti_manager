@@ -12,7 +12,20 @@
   },
   "dependencies": {
     "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "nodemon": "^3.1.11"
-  }
+    "nodemon": "^3.1.11",
+    "pg": "^8.17.2",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.5"
+  },
+  "sequelize": {
+  "config": "./database/config/config.json",
+  "models-path": "./database/models",
+  "migrations-path": "./database/migrations",
+  "seeders-path": "./database/seeders"
+}
 }
