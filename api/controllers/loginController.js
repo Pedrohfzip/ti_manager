@@ -1,22 +1,36 @@
-
+import dotenv from "dotenv";
+import { db } from "../database/models/index.js";
+import jwt from "jsonwebtoken";
+dotenv.config();
 
 const LoginController = {
 
     async login(req, res) {
         const { email, senha } = req.body;
-        console.log(email, senha);
         if (email === '' || senha === '') {
             return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
         }
-
+        
         try{
-            const user = await User.findOne({ where: { email, senha } });
+            const user = await db.users.findAll({ where: { email, password } });
+            console.log(user);
             if (!user) {
                 return res.status(401).json({ message: 'Credenciais inválidas.' });
             }
-            return res.status(200).json({ message: 'Login bem-sucedido.', user });
+            
+            const token = jwt.sign(
+            {
+                id: user.id,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "20d"
+            }
+            );
+            return res.status(200).json({ message: 'Login bem-sucedido.'});
         }catch(err){
-            return res.status(500).json({ message: 'Erro no servidor.' });
+            return res.status(500).json({ message: err.message });
         }
     }
 

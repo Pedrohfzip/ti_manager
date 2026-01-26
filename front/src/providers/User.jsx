@@ -8,6 +8,7 @@ async function getUsers() {
 }
 
 async function loginUser(email, senha) {
+  console.log("loginUser called with:", email, senha);
   return fetcher('/users/login/', {
     method: 'POST',
     credentials: "include",

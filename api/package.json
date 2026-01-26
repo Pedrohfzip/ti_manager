@@ -11,9 +11,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "nodemon": "^3.1.11",
     "pg": "^8.17.2",
     "pg-hstore": "^2.3.4",
@@ -23,9 +25,9 @@
     "sequelize-cli": "^6.6.5"
   },
   "sequelize": {
-  "config": "./database/config/config.json",
-  "models-path": "./database/models",
-  "migrations-path": "./database/migrations",
-  "seeders-path": "./database/seeders"
-}
+    "config": "./database/config/config.json",
+    "models-path": "./database/models",
+    "migrations-path": "./database/migrations",
+    "seeders-path": "./database/seeders"
+  }
 }
