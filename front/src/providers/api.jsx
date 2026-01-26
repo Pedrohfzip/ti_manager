@@ -1,7 +1,7 @@
 // utils/api.ts
 // Centraliza as funções de requisição para a API
 
-const API_BASE = 'http://localhost:8080/api/';
+const API_BASE = 'http://localhost:8080/api';
 
 export async function fetcher(endpoint, options) {
   let headers = options?.headers || {};

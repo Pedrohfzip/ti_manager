@@ -12,6 +12,12 @@ export function Layout() {
     { to: "/licencas", label: "Licenças", icon: Key },
   ];
 
+
+  const handleLoginClick = () => {
+    // Lógica para redirecionar para a página de login
+    window.location.href = "/login";
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -46,8 +52,8 @@ export function Layout() {
 
         <div className="p-4 border-t border-gray-200 cursor-pointer">
           <Dialog>
-            <DialogTrigger asChild>
-              <div className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-100 rounded-lg" tabIndex={0} role="button">
+            <DialogTrigger className="cursor cursor-pointer" asChild>
+              <div onClick={handleLoginClick} className="flex items-center gap-3 px-4 py-3  hover:bg-gray-100 rounded-lg" tabIndex={0} role="button">
                 <div className="w-8 h-8 rounded-full bg-blue-600 cursor cursor-pointer flex items-center justify-center text-white font-medium">
                   A
                 </div>

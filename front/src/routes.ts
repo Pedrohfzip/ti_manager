@@ -4,8 +4,13 @@ import { Equipamentos } from "./components/Equipamentos";
 import { Colaboradores } from "./components/Colaboradores";
 import { Licencas } from "./components/Licencas";
 import { Dashboard } from "./components/Dashboard";
+import Login from "./components/Login";
 
 export const router = createBrowserRouter([
+  {
+    path: "/login",
+    Component: Login,
+  },
   {
     path: "/",
     Component: Layout,
