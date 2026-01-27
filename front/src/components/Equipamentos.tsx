@@ -12,11 +12,21 @@ interface Equipamento {
   colaborador?: string;
 }
 
+
 export function Equipamentos() {
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  // Estado do formulário
+  const [form, setForm] = useState({
+    tipo: "",
+    marca: "",
+    modelo: "",
+    patrimonio: "",
+    status: "Ativo",
+    colaborador: "",
+  });
 
   useEffect(() => {
     const load = async () => {
@@ -50,6 +60,27 @@ export function Equipamentos() {
       default:
         return "bg-gray-100 text-gray-800";
     }
+  };
+
+  // Manipulador de mudança dos campos do formulário
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Manipulador de envio do formulário
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Aqui você pode enviar os dados para a API ou atualizar o estado local
+    // Exemplo: setEquipamentos([...equipamentos, { ...form, id: Date.now() }]);
+    setShowModal(false);
+    setForm({
+      tipo: "",
+      marca: "",
+      modelo: "",
+      patrimonio: "",
+      status: "Ativo",
+      colaborador: "",
+    });
   };
 
   return (
@@ -87,13 +118,16 @@ export function Equipamentos() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Tipo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Marca/Modelo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Patrimônio
+                  IP
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -164,67 +198,106 @@ export function Equipamentos() {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-gray-800">Novo Equipamento</h2>
-            </div>
-            <div className="p-6 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option>Notebook</option>
-                  <option>Desktop</option>
-                  <option>Monitor</option>
-                  <option>Impressora</option>
-                  <option>Outro</option>
-                </select>
+            <form onSubmit={handleSubmit}>
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-800">Novo Equipamento</h2>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Marca</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Ex: Dell"
-                />
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                  <select
+                    name="tipo"
+                    value={form.tipo}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  >
+                    <option value="">Selecione</option>
+                    <option>Notebook</option>
+                    <option>Desktop</option>
+                    <option>Monitor</option>
+                    <option>Impressora</option>
+                    <option>Outro</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Marca</label>
+                  <input
+                    type="text"
+                    name="marca"
+                    value={form.marca}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Ex: Dell"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Modelo</label>
+                  <input
+                    type="text"
+                    name="modelo"
+                    value={form.modelo}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Ex: Latitude 5420"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Patrimônio</label>
+                  <input
+                    type="text"
+                    name="patrimonio"
+                    value={form.patrimonio}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Ex: NB-001"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                  <select
+                    name="status"
+                    value={form.status}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  >
+                    <option>Ativo</option>
+                    <option>Manutenção</option>
+                    <option>Inativo</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Colaborador</label>
+                  <input
+                    type="text"
+                    name="colaborador"
+                    value={form.colaborador}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Nome do colaborador"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Modelo</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Ex: Latitude 5420"
-                />
+              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Salvar
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Patrimônio</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Ex: NB-001"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option>Ativo</option>
-                  <option>Manutenção</option>
-                  <option>Inativo</option>
-                </select>
-              </div>
-            </div>
-            <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Salvar
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       )}
