@@ -16,11 +16,23 @@ const Login: React.FC = () => {
       setLoading(false);
       return;
     }
-    // Simulação de login
-    try{
-        await userProvider.loginUser(email, password);
-    }catch(err){
+    try {
+      const response = await userProvider.loginUser(email, password);
+      if (response && response.token) {
+        localStorage.setItem('token', response.token);
+        window.location.href = '/';
+        // Você pode salvar também os dados do usuário, se desejar:
+        // localStorage.setItem('user', JSON.stringify(response.user));
+        setError('');
+        // Redirecionar ou atualizar estado global, se necessário
+        // Exemplo: window.location.href = '/dashboard';
+      } else {
         setError('Falha ao entrar. Verifique suas credenciais.');
+      }
+    } catch (err) {
+      setError('Falha ao entrar. Verifique suas credenciais.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,6 +89,7 @@ const Login: React.FC = () => {
             type="password"
             className={`border-2 rounded-xl px-4 py-2 focus:outline-none transition-all duration-200 ${focusField === 'password' ? 'border-blue-500 shadow-lg' : 'border-zinc-200'}`}
             value={password}
+            name='password'
             onChange={e => setPassword(e.target.value)}
             onFocus={() => setFocusField('password')}
             onBlur={() => setFocusField(null)}

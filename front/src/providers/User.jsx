@@ -7,15 +7,27 @@ async function getUsers() {
   return fetcher('/users/');
 }
 
-async function loginUser(email, senha) {
-  console.log("loginUser called with:", email, senha);
+async function loginUser(email, password) {
+  console.log("loginUser called with:", email, password);
   return fetcher('/users/login/', {
     method: 'POST',
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ email, senha }),
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+
+async function register({name ,email, password}) {
+  return fetcher('/users/register/', {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, email, password }),
   });
 }
 
@@ -23,6 +35,7 @@ async function loginUser(email, senha) {
 
 export default {
   getUsers,
+  register,
   loginUser,
 };
 
