@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { Plus, Search, Edit2, Trash2, Monitor } from "lucide-react";
-// import { fetchEquipamentos } from "../api/equips";
+import  { getData }  from "../providers/Devices.jsx";
 
 interface Equipamento {
   id: number;
-  tipo: string;
-  marca: string;
-  modelo: string;
-  patrimonio: string;
-  status: "Ativo" | "Manutenção" | "Inativo";
-  colaborador?: string;
+  name: string;
+  type: string;
+  employee: string;
 }
 
 
@@ -32,8 +29,8 @@ export function Equipamentos() {
     const load = async () => {
       try {
         setLoading(true);
-        // const data = await fetchEquipamentos();
-        // setEquipamentos(data);
+        const data = await getData();
+        setEquipamentos(data);
       } catch (error) {
         console.error("Erro ao buscar equipamentos:", error);
       } finally {
@@ -124,15 +121,6 @@ export function Equipamentos() {
                   Tipo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Marca/Modelo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  IP
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Colaborador
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -148,27 +136,14 @@ export function Equipamentos() {
                       <div className="bg-blue-100 p-2 rounded-lg">
                         <Monitor className="w-5 h-5 text-blue-600" />
                       </div>
-                      <span className="text-gray-900 font-medium">{equipamento.tipo}</span>
+                      <span className="text-gray-900 font-medium">{equipamento.name}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-gray-900">{equipamento.marca}</div>
-                    <div className="text-sm text-gray-500">{equipamento.modelo}</div>
+                    <div className="text-gray-900">{equipamento.type}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-gray-900 font-mono">{equipamento.patrimonio}</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${getStatusColor(
-                        equipamento.status
-                      )}`}
-                    >
-                      {equipamento.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                    {equipamento.colaborador || "-"}
+                    <span className="text-gray-900 font-mono">{equipamento.employee}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">

@@ -6,27 +6,27 @@ export default (sequelize) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     brand: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     heritage: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     status: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     employee: {
       type: DataTypes.STRING,
