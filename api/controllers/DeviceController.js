@@ -14,7 +14,18 @@ const DeviceController = {
         } catch (err) {
             return res.status(500).json({ message: err.message });
         }
-    }
+    },
+
+    async getDeviceDetails(req, res) {
+        console.log(req.body);
+        res.json({ ok: true });
+    },
+
+
+    async editDevice(req, res) {
+        console.log(req.body);
+        res.json({ ok: true });
+    },
 };
 
 

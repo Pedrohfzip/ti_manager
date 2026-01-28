@@ -4,4 +4,6 @@ const router = Router();
 
 
 router.get('/all', DeviceController.getAllDevices);
+router.post('/details', DeviceController.getDeviceDetails);
+router.post('/update', DeviceController.editDevice);
 export default router;

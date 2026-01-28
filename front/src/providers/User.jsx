@@ -44,6 +44,9 @@ async function getData() {
   });
 }
 
+
+
+
 // Adicione outras funções relacionadas a usuários aqui
 
 

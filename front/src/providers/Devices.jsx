@@ -11,4 +11,15 @@ async function getData() {
   });
 }
 
-export { getData };
+async function updateDevice(deviceData) {
+  return fetcher('/devices/update', {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(deviceData)
+  });
+}
+
+export { getData, updateDevice };

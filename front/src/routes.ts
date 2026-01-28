@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
 import { Equipamentos } from "./components/Equipamentos";
+import EditEquipamento from "./components/EditEquipamento";
 import { Colaboradores } from "./components/Colaboradores";
 import { Licencas } from "./components/Licencas";
 import { Dashboard } from "./components/Dashboard";
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Dashboard },
       { path: "equipamentos", Component: Equipamentos },
+      { path: "equipamentos/editar", Component: EditEquipamento },
       { path: "colaboradores", Component: Colaboradores },
       { path: "licencas", Component: Licencas },
     ],

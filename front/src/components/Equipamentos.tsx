@@ -1,19 +1,24 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Plus, Search, Edit2, Trash2, Monitor } from "lucide-react";
-import  { getData }  from "../providers/Devices.jsx";
+import { getData, updateDevice } from "../providers/Devices.jsx";
 
 interface Equipamento {
   id: number;
   name: string;
   type: string;
   employee: string;
+  brand?: string;
+  status?: string;
 }
 
 
 export function Equipamentos() {
+  const navigate = useNavigate();
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   // Estado do formulário
   const [form, setForm] = useState({
@@ -23,6 +28,7 @@ export function Equipamentos() {
     patrimonio: "",
     status: "Ativo",
     colaborador: "",
+    brand: "",
   });
 
   useEffect(() => {
@@ -65,16 +71,25 @@ export function Equipamentos() {
   };
 
   // Manipulador de envio do formulário
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode enviar os dados para a API ou atualizar o estado local
-    // Exemplo: setEquipamentos([...equipamentos, { ...form, id: Date.now() }]);
+    if (editId !== null) {
+      try {
+        await updateDevice({ id: editId, ...form });
+        const data = await getData();
+        setEquipamentos(data);
+      } catch (error) {
+        console.error("Erro ao atualizar equipamento:", error);
+      }
+    } else {
+      // Lógica para novo equipamento (se desejar)
+    }
     setShowModal(false);
+    setEditId(null);
     setForm({
       tipo: "",
-      marca: "",
-      modelo: "",
-      patrimonio: "",
+      brand: "",
+      patrimonio: "", 
       status: "Ativo",
       colaborador: "",
     });
@@ -124,6 +139,9 @@ export function Equipamentos() {
                   Colaborador
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  IP
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ações
                 </th>
               </tr>
@@ -145,9 +163,17 @@ export function Equipamentos() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-gray-900 font-mono">{equipamento.employee}</span>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-gray-900 font-mono">IP</span>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">
-                      <button className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-50 rounded-lg transition-colors">
+                      <button
+                        className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-50 rounded-lg transition-colors"
+                        onClick={() => {
+                          navigate("/equipamentos/editar", { state: { equipamento } });
+                        }}
+                      >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-lg transition-colors">
@@ -169,13 +195,12 @@ export function Equipamentos() {
         )}
       </div>
 
-      {/* Modal Novo Equipamento */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
             <form onSubmit={handleSubmit}>
               <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800">Novo Equipamento</h2>
+                <h2 className="text-xl font-bold text-gray-800">{editId !== null ? "Editar Equipamento" : "Novo Equipamento"}</h2>
               </div>
               <div className="p-6 space-y-4">
                 <div>
