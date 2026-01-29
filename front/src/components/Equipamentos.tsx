@@ -72,7 +72,7 @@ export default function Equipamentos() {
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <div className="relative">
+          <div className="relative mb-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
@@ -81,6 +81,18 @@ export default function Equipamentos() {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+          </div>
+          {/* Filtros rápidos por tipo */}
+          <div className="flex gap-2 mt-4">
+            {['Notebook', 'Computador'].map((tipo) => (
+              <button
+                key={tipo}
+                className={`px-3 py-1 rounded-full border text-sm font-medium transition-colors ${searchTerm.toLowerCase() === tipo.toLowerCase() ? 'bg-blue-600 text-white border-blue-600' : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-blue-100'}`}
+                onClick={() => setSearchTerm(tipo)}
+              >
+                Tipo: {tipo}
+              </button>
+            ))}
           </div>
         </div>
 
