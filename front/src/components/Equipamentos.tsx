@@ -1,96 +1,58 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Plus, Search, Edit2, Trash2, Monitor } from "lucide-react";
+import { Plus, Search, Edit2, Trash2, Monitor, ArrowUp, ArrowDown } from "lucide-react";
 import { getData, updateDevice } from "../providers/Devices.jsx";
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { setEquipamentos, setLoading } from '../store/equipamentos/equipamentosSlice';
 
-interface Equipamento {
-  id: number;
-  name: string;
-  type: string;
-  employee: string;
-  ip: string;
-}
-
-
-export function Equipamentos() {
+export default function Equipamentos() {
   const navigate = useNavigate();
-  const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
-  const [teste, setTeste] = useState<any>(null);
+  const dispatch = useAppDispatch();
+  const equipamentos = useAppSelector(state => state.equipamentos.data);
+  const loading = useAppSelector(state => state.equipamentos.loading);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  // Estado do formulário
-  const [form, setForm] = useState({
-    name: "",
-    type: "",
-    employee: "",
-    ip: "",
-  });
+  const [sortConfig, setSortConfig] = useState<{ key: keyof typeof form | null; direction: 'asc' | 'desc' }>({ key: null, direction: 'asc' });
 
   useEffect(() => {
     const load = async () => {
       try {
-        setLoading(true);
+        dispatch(setLoading(true));
         const data = await getData();
-        console.log("Equipamentos fetched:", data);
-        setEquipamentos(data);
+        dispatch(setEquipamentos(data));
       } catch (error) {
         console.error("Erro ao buscar equipamentos:", error);
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
     load();
   }, []);
 
-  const filteredEquipamentos = equipamentos.filter((eq) =>
-    Object.values(eq).some((value) =>
-      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  const sortedEquipamentos = [...equipamentos].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aValue = a[sortConfig.key] || '';
+    const bValue = b[sortConfig.key] || '';
+    if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const filteredEquipamentos = sortedEquipamentos
+    .filter((eq) =>
+      Object.values(eq).some((value) =>
+        value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
     )
-  );
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Ativo":
-        return "bg-green-100 text-green-800";
-      case "Manutenção":
-        return "bg-yellow-100 text-yellow-800";
-      case "Inativo":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  // Manipulador de mudança dos campos do formulário
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // Manipulador de envio do formulário
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editId !== null) {
-      try {
-        await updateDevice({ id: editId, ...form });
-        const data = await getData();
-        setEquipamentos(data);
-      } catch (error) {
-        console.error("Erro ao atualizar equipamento:", error);
-      }
-    } else {
-      // Lógica para novo equipamento (se desejar)
-    }
-    setShowModal(false);
-    setEditId(null);
-    setForm({
-      name: "",
-      type: "",
-      employee: "",
-      ip: "",
+    .sort((a, b) => {
+      // Move linhas com todos os campos vazios para o final
+      const aEmpty = Object.values(a).every(v => v === null || v === undefined || v === '');
+      const bEmpty = Object.values(b).every(v => v === null || v === undefined || v === '');
+      if (aEmpty && !bEmpty) return 1;
+      if (!aEmpty && bEmpty) return -1;
+      return 0;
     });
-  };
 
   return (
     <div className="p-8">
@@ -126,18 +88,32 @@ export function Equipamentos() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tipo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Colaborador
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  IP
-                </th>
+                { [
+                  { label: 'Name', key: 'name' },
+                  { label: 'Tipo', key: 'type' },
+                  { label: 'Colaborador', key: 'employee' },
+                  { label: 'IP', key: 'ip' },
+                ].map((col) => (
+                  <th
+                    key={col.key}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer select-none"
+                    onClick={() => {
+                      setSortConfig((prev) => {
+                        if (prev.key === col.key) {
+                          return { key: col.key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+                        }
+                        return { key: col.key as any, direction: 'asc' };
+                      });
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      {col.label}
+                      {sortConfig.key === col.key && (
+                        sortConfig.direction === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                      )}
+                    </span>
+                  </th>
+                ))}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ações
                 </th>
@@ -192,112 +168,6 @@ export function Equipamentos() {
         )}
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-            <form onSubmit={handleSubmit}>
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800">{editId !== null ? "Editar Equipamento" : "Novo Equipamento"}</h2>
-              </div>
-              <div className="p-6 space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
-                  <select
-                    name="type"
-                    value={form.type}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="">Selecione</option>
-                    <option>Notebook</option>
-                    <option>Desktop</option>
-                    <option>Monitor</option>
-                    <option>Impressora</option>
-                    <option>Outro</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Marca</label>
-                  <input
-                    type="text"
-                    name="marca"
-                    value={form.marca}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Ex: Dell"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Modelo</label>
-                  <input
-                    type="text"
-                    name="modelo"
-                    value={form.modelo}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Ex: Latitude 5420"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Patrimônio</label>
-                  <input
-                    type="text"
-                    name="patrimonio"
-                    value={form.patrimonio}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Ex: NB-001"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                  <select
-                    name="status"
-                    value={form.status}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  >
-                    <option>Ativo</option>
-                    <option>Manutenção</option>
-                    <option>Inativo</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Colaborador</label>
-                  <input
-                    type="text"
-                    name="colaborador"
-                    value={form.colaborador}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Nome do colaborador"
-                  />
-                </div>
-              </div>
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Salvar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

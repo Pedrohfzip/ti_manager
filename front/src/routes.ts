@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
-import { Equipamentos } from "./components/Equipamentos";
+import  Equipamentos  from "./components/Equipamentos";
 import EditEquipamento from "./components/EditEquipamento";
 import { Colaboradores } from "./components/Colaboradores";
 import { Licencas } from "./components/Licencas";
