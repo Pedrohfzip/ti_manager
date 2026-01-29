@@ -12,7 +12,6 @@ const DeviceController = {
     async getAllDevices(req, res) {
         try {
             const devices = await db.Devices.findAll();
-            console.log(devices);
             return res.status(200).json(devices);
         } catch (err) {
             return res.status(500).json({ message: err.message });
@@ -46,6 +45,7 @@ const DeviceController = {
 
     async editDevice(req, res) {
         try {
+            console.log('Requisição recebida para editar device:', req.body);
             const deviceData = req.body;
             const { id, ...fields } = deviceData;
             if (!id) {
@@ -71,6 +71,20 @@ const DeviceController = {
             res.status(500).json({ ok: false, message: 'Erro ao editar device', error: err.message });
         }
     },
+
+    async deleteDevice(req, res) {
+        const { id } = req.params;
+        try {
+            const deletedRows = await db.Devices.destroy({ where: { id } });
+            if (deletedRows > 0) {
+                res.json({ ok: true, message: 'Device deletado com sucesso.' });
+            } else {
+                res.status(404).json({ ok: false, message: 'Device não encontrado para deletar.' });
+            }
+        } catch (err) {
+            res.status(500).json({ ok: false, message: 'Erro ao deletar device', error: err.message });
+        }
+    }
 };
 
 

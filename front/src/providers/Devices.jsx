@@ -29,4 +29,15 @@ async function updateDevice(deviceData) {
   });
 }
 
-export { getData, updateDevice };
+
+async function deleteDevice(deviceId) {
+  return fetcher(`/devices/delete/${deviceId}`, {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+export { getData, updateDevice, deleteDevice };

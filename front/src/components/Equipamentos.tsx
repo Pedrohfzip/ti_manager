@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Plus, Search, Edit2, Trash2, Monitor, ArrowUp, ArrowDown } from "lucide-react";
-import { getData, updateDevice } from "../providers/Devices.jsx";
+import { getData, updateDevice, deleteDevice } from "../providers/Devices.jsx";
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setEquipamentos, setLoading } from '../store/equipamentos/equipamentosSlice';
 
@@ -39,6 +39,18 @@ export default function Equipamentos() {
     return 0;
   });
 
+  const handleDelete = async (id: number) => {
+    if (window.confirm("Tem certeza que deseja deletar este equipamento?")) {
+      try {
+        await deleteDevice(id);
+        const data = await getData();
+        dispatch(setEquipamentos(data));
+      } catch (error) {
+        console.error("Erro ao deletar equipamento:", error);
+      }
+    }
+  };
+
   const filteredEquipamentos = sortedEquipamentos
     .filter((eq) =>
       Object.values(eq).some((value) =>
@@ -53,6 +65,9 @@ export default function Equipamentos() {
       if (!aEmpty && bEmpty) return -1;
       return 0;
     });
+
+
+  
 
   return (
     <div className="p-8">
@@ -98,17 +113,17 @@ export default function Equipamentos() {
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="">
               <tr>
-                { [
-                  { label: 'Name', key: 'name' },
-                  { label: 'Tipo', key: 'type' },
-                  { label: 'Colaborador', key: 'employee' },
-                  { label: 'IP', key: 'ip' },
-                ].map((col) => (
+                {([
+                  { label: 'Name', key: 'name', width: 'w-32' },
+                  { label: 'Tipo', key: 'type', width: 'w-24' },
+                  { label: 'Colaborador', key: 'employee', width: 'w-32' },
+                  { label: 'IP', key: 'ip', width: 'w-24' },
+                ]).map((col) => (
                   <th
                     key={col.key}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer select-none"
+                    className={`${col.width} px-4 py-2 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer select-none`}
                     onClick={() => {
                       setSortConfig((prev) => {
                         if (prev.key === col.key) {
@@ -126,9 +141,6 @@ export default function Equipamentos() {
                     </span>
                   </th>
                 ))}
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ações
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -145,7 +157,7 @@ export default function Equipamentos() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-gray-900">{equipamento.type}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className=" py-4 whitespace-nowrap">
                     <span className="text-gray-900 font-mono">{equipamento.employee}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -161,7 +173,7 @@ export default function Equipamentos() {
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
-                      <button className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-lg transition-colors">
+                      <button onClick={() => handleDelete(equipamento.id)} className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-lg transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
