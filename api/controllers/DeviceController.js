@@ -1,17 +1,18 @@
 import dotenv from "dotenv";
-import { db } from "../database/models/index.js";
+import { db, loadModels } from "../database/models/index.js";
 import jwt from "jsonwebtoken";
 import adInit from '../adInit.js';
 import { get } from "http";
 import fs from "fs";
 import path from "path";
 dotenv.config();
-
+loadModels(); // Garante que os models estão carregados
 
 const DeviceController = {
     async getAllDevices(req, res) {
         try {
             const devices = await db.Devices.findAll();
+            console.log(devices);
             return res.status(200).json(devices);
         } catch (err) {
             return res.status(500).json({ message: err.message });
@@ -44,8 +45,31 @@ const DeviceController = {
 
 
     async editDevice(req, res) {
-        console.log(req.body);
-        res.json({ ok: true });
+        try {
+            const deviceData = req.body;
+            const { id, ...fields } = deviceData;
+            if (!id) {
+                return res.status(400).json({ ok: false, message: 'ID é obrigatório para atualizar o device.' });
+            }
+            // Filtra apenas campos não nulos
+            const updateFields = {};
+            for (const [key, value] of Object.entries(fields)) {
+                if (value !== null && value !== undefined) {
+                    updateFields[key] = value;
+                }
+            }
+            if (Object.keys(updateFields).length === 0) {
+                return res.status(400).json({ ok: false, message: 'Nenhum campo válido para atualizar.' });
+            }
+            const [updatedRows] = await db.Devices.update(updateFields, { where: { id } });
+            if (updatedRows > 0) {
+                res.json({ ok: true, message: 'Device atualizado na tabela Devices.' });
+            } else {
+                res.status(404).json({ ok: false, message: 'Device não encontrado para atualizar.' });
+            }
+        } catch (err) {
+            res.status(500).json({ ok: false, message: 'Erro ao editar device', error: err.message });
+        }
     },
 };
 

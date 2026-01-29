@@ -6,7 +6,7 @@ export default (sequelize) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: true
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
@@ -29,6 +29,10 @@ export default (sequelize) => {
       allowNull: true
     },
     employee: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    ip: {
       type: DataTypes.STRING,
       allowNull: true
     },

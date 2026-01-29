@@ -9,6 +9,13 @@ async function getData() {
       "Content-Type": "application/json"
     }
   });
+  // return fetcher('/active-directory/data', {
+  //   method: 'GET',
+  //   credentials: "include",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   }
+  // });
 }
 
 async function updateDevice(deviceData) {

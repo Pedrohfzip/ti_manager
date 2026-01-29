@@ -1,0 +1,398 @@
+[
+  {
+    "fabricante": "System manufacturer",
+    "nucleos_cpu": 4,
+    "ram_gb": 31.89,
+    "serial": "System Serial Number",
+    "modelo": "System Product Name",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 10:13:06",
+    "ip": "172.25.96.1",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 33.19,
+        "total_gb": 222.99
+      },
+      {
+        "drive": "I:",
+        "free_gb": 140.94,
+        "total_gb": 931.51
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz",
+    "hostname": "EZ-PC-002",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "System manufacturer",
+    "nucleos_cpu": 6,
+    "ram_gb": 31.94,
+    "serial": "System Serial Number",
+    "modelo": "System Product Name",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 10:51:08",
+    "ip": "192.168.1.58",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 10.8,
+        "total_gb": 222.94
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i5-9400 CPU @ 2.90GHz",
+    "hostname": "EZ-PC-026",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.18363"
+  },
+  {
+    "fabricante": "INTEL",
+    "nucleos_cpu": 8,
+    "ram_gb": 31.87,
+    "serial": "Default string",
+    "modelo": "H510",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 11:00:46",
+    "ip": "192.168.0.79",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 18.17,
+        "total_gb": 237.18
+      }
+    ],
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "Intel(R) Core(TM) i7-10700F CPU @ 2.90GHz",
+    "hostname": "EZ-PC-079",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.22631"
+  },
+  {
+    "fabricante": "ASUS",
+    "nucleos_cpu": 16,
+    "ram_gb": 31.75,
+    "serial": "System Serial Number",
+    "modelo": "System Product Name",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 11:07:12",
+    "ip": "192.168.1.70",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 5.68,
+        "total_gb": 237.74
+      }
+    ],
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "13th Gen Intel(R) Core(TM) i7-13700K",
+    "hostname": "EZ-PC-050",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.22621"
+  },
+  {
+    "fabricante": "Gigabyte Technology Co., Ltd.",
+    "nucleos_cpu": 8,
+    "ram_gb": 31.94,
+    "serial": "Default string",
+    "modelo": "Z370M AORUS Gaming",
+    "usuario": "davi.ribeiro",
+    "data_coleta": "2026-01-28 15:45:34",
+    "ip": "192.168.0.145",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 43.86,
+        "total_gb": 465.14
+      },
+      {
+        "drive": "G:",
+        "free_gb": 2.37,
+        "total_gb": 15
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz",
+    "hostname": "EZ-PC-023",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "PCWARE",
+    "nucleos_cpu": 8,
+    "ram_gb": 31.93,
+    "serial": "Default string",
+    "modelo": "IPMH310G 2.0",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 15:49:29",
+    "ip": "192.168.1.66",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 5.98,
+        "total_gb": 222.66
+      },
+      {
+        "drive": "D:",
+        "free_gb": 0.06,
+        "total_gb": 0.1
+      },
+      {
+        "drive": "E:",
+        "free_gb": 417.62,
+        "total_gb": 465.13
+      }
+    ],
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "Intel(R) Core(TM) i7-9700F CPU @ 3.00GHz",
+    "hostname": "EZ-PC-052",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.26100"
+  },
+  {
+    "fabricante": "LENOVO",
+    "nucleos_cpu": 4,
+    "ram_gb": 5.74,
+    "serial": "PE0CT081",
+    "modelo": "82X5",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:07:54",
+    "ip": "192.168.1.1",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 367.56,
+        "total_gb": 476.31
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "AMD Ryzen 5 7520U with Radeon Graphics         ",
+    "hostname": "EZ-LT-024",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "LENOVO",
+    "nucleos_cpu": 6,
+    "ram_gb": 7.73,
+    "serial": "PE0EC5F6",
+    "modelo": "82VY",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:01:28",
+    "ip": "192.168.1.3",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 118.77,
+        "total_gb": 237.61
+      }
+    ],
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "12th Gen Intel(R) Core(TM) i3-1215U",
+    "hostname": "EZ-LT-032",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.22631"
+  },
+  {
+    "fabricante": "LENOVO",
+    "nucleos_cpu": 4,
+    "ram_gb": 7.79,
+    "serial": "PE09R421",
+    "modelo": "82MD",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:05:41",
+    "ip": "192.168.0.36",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 100.08,
+        "total_gb": 237.42
+      }
+    ],
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz",
+    "hostname": "EZ-LT-036",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.26100"
+  },
+  {
+    "fabricante": "Dell Inc.",
+    "nucleos_cpu": 4,
+    "ram_gb": 15.89,
+    "serial": "45F36W1",
+    "modelo": "OptiPlex 9010",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:09:28",
+    "ip": "192.168.0.20",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 25.28,
+        "total_gb": 222.99
+      },
+      {
+        "drive": "D:",
+        "free_gb": 44.22,
+        "total_gb": 192.54
+      },
+      {
+        "drive": "F:",
+        "free_gb": 613.65,
+        "total_gb": 738.62
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz",
+    "hostname": "EZ-PC-011",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "System manufacturer",
+    "nucleos_cpu": 4,
+    "ram_gb": 13.93,
+    "serial": "System Serial Number",
+    "modelo": "System Product Name",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:10:39",
+    "ip": "192.168.0.58",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 13.99,
+        "total_gb": 222.96
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "AMD Ryzen 5 3400G with Radeon Vega Graphics    ",
+    "hostname": "EZ-PC-058",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "PCWARE",
+    "nucleos_cpu": 6,
+    "ram_gb": 15.88,
+    "serial": "00000000",
+    "modelo": "IPMH310 PRO 2.0",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-28 16:24:13",
+    "ip": "192.168.0.119",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 3.26,
+        "total_gb": 222.95
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i5-9400 CPU @ 2.90GHz",
+    "hostname": "EZ-PC-059",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "Gigabyte Technology Co., Ltd.",
+    "nucleos_cpu": 4,
+    "ram_gb": 7.92,
+    "serial": " ",
+    "modelo": "H61M-D2-B3",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-29 08:42:35",
+    "ip": "192.168.1.57",
+    "discos": [
+      {
+        "drive": "C:",
+        "free_gb": 135.49,
+        "total_gb": 222.99
+      }
+    ],
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i5-2310 CPU @ 2.90GHz",
+    "hostname": "EZ-PC-016",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "Acer",
+    "nucleos_cpu": 8,
+    "ram_gb": 7.71,
+    "serial": "NXKNGAL001420002CB9Z00",
+    "modelo": "Aspire A515-57",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-29 09:05:45",
+    "ip": "192.168.0.27",
+    "discos": {
+      "drive": "C:",
+      "free_gb": 100.13,
+      "total_gb": 237.73
+    },
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450H",
+    "hostname": "EZ-LT-027",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.26100"
+  },
+  {
+    "fabricante": "Hewlett-Packard",
+    "nucleos_cpu": 4,
+    "ram_gb": 3.89,
+    "serial": "BRJ446BW97",
+    "modelo": "23-g000br",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-29 09:02:28",
+    "ip": "192.168.0.34",
+    "discos": {
+      "drive": "C:",
+      "free_gb": 120.91,
+      "total_gb": 222.54
+    },
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i5-4670T CPU @ 2.30GHz",
+    "hostname": "EZ-PC-008",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "System manufacturer",
+    "nucleos_cpu": 4,
+    "ram_gb": 15.89,
+    "serial": "System Serial Number",
+    "modelo": "System Product Name",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-29 09:05:00",
+    "ip": "192.168.0.29",
+    "discos": {
+      "drive": "C:",
+      "free_gb": 123.18,
+      "total_gb": 222.91
+    },
+    "sistema": "Microsoft Windows 10 Pro",
+    "cpu": "Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz",
+    "hostname": "EZ-PC-056",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.19045"
+  },
+  {
+    "fabricante": "Dell Inc.",
+    "nucleos_cpu": 10,
+    "ram_gb": 15.69,
+    "serial": "D9THW14",
+    "modelo": "Inspiron 15 3520",
+    "usuario": "pedro.fagundes",
+    "data_coleta": "2026-01-29 09:15:51",
+    "ip": "192.168.1.74",
+    "discos": {
+      "drive": "C:",
+      "free_gb": 265.96,
+      "total_gb": 455.79
+    },
+    "sistema": "Microsoft Windows 11 Pro",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+    "hostname": "EZ-LT-019",
+    "dominio": "ezortea.com.br",
+    "versao_so": "10.0.22631"
+  }
+]

@@ -48,6 +48,5 @@ async function loadModels() {
   db.Sequelize = Sequelize;
 }
 
-loadModels();
-
-export { db };
+// Não executa loadModels automaticamente, exporta para uso externo
+export { db, loadModels };

@@ -3,21 +3,21 @@
 {
   "development": {
     "username": "postgres",
-    "password": "3z0rt3@*",
+    "password": "ezortea",
     "database": "managerti",
     "host": "192.168.0.204",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "3z0rt3@*",
+    "password": "ezortea",
     "database": "managerti",
     "host": "192.168.0.204",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "3z0rt3@*",
+    "password": "ezortea",
     "database": "managerti",
     "host": "192.168.0.204",
     "dialect": "postgres"

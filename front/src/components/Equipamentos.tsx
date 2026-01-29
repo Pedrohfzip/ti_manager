@@ -8,27 +8,24 @@ interface Equipamento {
   name: string;
   type: string;
   employee: string;
-  brand?: string;
-  status?: string;
+  ip: string;
 }
 
 
 export function Equipamentos() {
   const navigate = useNavigate();
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
+  const [teste, setTeste] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   // Estado do formulário
   const [form, setForm] = useState({
-    tipo: "",
-    marca: "",
-    modelo: "",
-    patrimonio: "",
-    status: "Ativo",
-    colaborador: "",
-    brand: "",
+    name: "",
+    type: "",
+    employee: "",
+    ip: "",
   });
 
   useEffect(() => {
@@ -36,6 +33,7 @@ export function Equipamentos() {
       try {
         setLoading(true);
         const data = await getData();
+        console.log("Equipamentos fetched:", data);
         setEquipamentos(data);
       } catch (error) {
         console.error("Erro ao buscar equipamentos:", error);
@@ -87,11 +85,10 @@ export function Equipamentos() {
     setShowModal(false);
     setEditId(null);
     setForm({
-      tipo: "",
-      brand: "",
-      patrimonio: "", 
-      status: "Ativo",
-      colaborador: "",
+      name: "",
+      type: "",
+      employee: "",
+      ip: "",
     });
   };
 
@@ -164,7 +161,7 @@ export function Equipamentos() {
                     <span className="text-gray-900 font-mono">{equipamento.employee}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-gray-900 font-mono">IP</span>
+                    <span className="text-gray-900 font-mono">{equipamento.ip}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">
@@ -206,8 +203,8 @@ export function Equipamentos() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
                   <select
-                    name="tipo"
-                    value={form.tipo}
+                    name="type"
+                    value={form.type}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
