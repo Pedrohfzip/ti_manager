@@ -1,7 +1,8 @@
 import Router from 'express';
-import { getNetworkDevices } from '../controllers/NetWorkController.js';
+import  NetWorkController  from '../controllers/NetWorkController.js';
 const router = Router();
 
-router.get('/devices', getNetworkDevices);
+router.get('/devices', NetWorkController.getNetworkDevices);
+router.get('/updateList', NetWorkController.updateDevicesFromNetwork);
 
 export default router;

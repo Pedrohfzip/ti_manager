@@ -10,9 +10,18 @@ loadModels(); // Garante que os models estão carregados
 
 const DeviceController = {
     async getAllDevices(req, res) {
+        function ipToNumber(ip) {
+            if (!ip) return null;
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0);
+        }
         try {
             const devices = await db.Devices.findAll();
-            return res.status(200).json(devices);
+            // Adiciona ipNumber ao resultado
+            const devicesWithIpNumber = devices.map(device => ({
+                ...device.toJSON(),
+                ipNumber: device.ip ? ipToNumber(device.ip) : null
+            }));
+            return res.status(200).json(devicesWithIpNumber);
         } catch (err) {
             return res.status(500).json({ message: err.message });
         }

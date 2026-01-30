@@ -11,4 +11,14 @@ async function getNetworkDevices() {
   });
 }
 
-export { getNetworkDevices };
+async function updateNetWorkList() {
+  return fetcher('/network/updateList', {
+    method: 'GET',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+export { getNetworkDevices, updateNetWorkList };

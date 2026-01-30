@@ -1,6 +1,12 @@
 
+
 import { exec } from 'child_process';
 import dns from 'dns';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { loadModels, db } from '../database/models/index.js';
+
+
 
 
 const baseIps = ['192.168.0.', '192.168.1.'];
@@ -32,32 +38,56 @@ function getMacFromArp(ip, callback) {
   });
 }
 
-for (const baseIp of baseIps) {
-  for (let i = start; i <= end; i++) {
-    const ip = baseIp + i;
-    exec(`ping -n 1 -w 100 ${ip}`, (err, stdout) => {
-      checked++;
-      if (!err && stdout.includes('TTL=')) {
-        // IP respondeu ao ping
-        getMacFromArp(ip, (mac) => {
-          dns.reverse(ip, (err, hostnames) => {
-            devices.push({
-              ip,
-              mac,
-              hostname: (!err && hostnames && hostnames.length > 0) ? hostnames[0] : '',
+
+
+async function scanAndUpdate() {
+  await loadModels();
+  devices = [];
+  checked = 0;
+  processed = 0;
+  for (const baseIp of baseIps) {
+    for (let i = start; i <= end; i++) {
+      const ip = baseIp + i;
+      exec(`ping -n 1 -w 100 ${ip}`, (err, stdout) => {
+        checked++;
+        if (!err && stdout.includes('TTL=')) {
+          getMacFromArp(ip, (mac) => {
+            dns.reverse(ip, async (err, hostnames) => {
+              const device = {
+                ip,
+                mac,
+                hostname: (!err && hostnames && hostnames.length > 0) ? hostnames[0] : '',
+              };
+              devices.push(device);
+              // Atualiza ou cria no banco
+              try {
+                const [record, created] = await db.NetworkDatas.findOrCreate({
+                  where: { mac: device.mac },
+                  defaults: device
+                });
+                if (!created) {
+                  await record.update({ ip: device.ip, hostname: device.hostname });
+                }
+              } catch (e) {
+                console.error('Erro ao salvar/atualizar no banco:', e);
+              }
+              processed++;
+              if (processed === totalChecks) {
+                console.table(devices, ['ip', 'mac', 'hostname']);
+              }
             });
-            processed++;
-            if (processed === totalChecks) {
-              console.table(devices, ['ip', 'mac', 'hostname']);
-            }
           });
-        });
-      } else {
-        processed++;
-        if (processed === totalChecks) {
-          console.table(devices, ['ip', 'mac', 'hostname']);
+        } else {
+          processed++;
+          if (processed === totalChecks) {
+            console.table(devices, ['ip', 'mac', 'hostname']);
+          }
         }
-      }
-    });
+      });
+    }
   }
 }
+
+
+export default scanAndUpdate;
+

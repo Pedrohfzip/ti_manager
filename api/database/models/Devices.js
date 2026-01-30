@@ -34,7 +34,11 @@ export default (sequelize) => {
     },
     ip: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'NetworkDatas',
+        key: 'ip',
+      },
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -50,4 +54,15 @@ export default (sequelize) => {
     tableName: 'Devices',
     timestamps: true
   });
+
+// Associação: Devices pertence a NetworkDatas pelo campo ip
+// (deve ser chamada após todos os models serem carregados)
+ function associate(db) {
+  db.Devices.belongsTo(db.NetworkDatas, {
+    foreignKey: 'ip',
+    targetKey: 'ip',
+    as: 'networkData',
+    constraints: false // pois ip não é PK em NetworkDatas
+  });
+}
 };

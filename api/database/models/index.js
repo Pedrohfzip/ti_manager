@@ -36,6 +36,10 @@ async function loadModels() {
     const modelModule = await import('file://' + modelPath);
     const model = modelModule.default(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
+    // Se o model exporta associate, armazena para chamada depois
+    if (typeof modelModule.associate === 'function') {
+      db[model.name].associate = modelModule.associate;
+    }
   }
 
   Object.keys(db).forEach(modelName => {
