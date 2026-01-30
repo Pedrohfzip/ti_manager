@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 
-import { Monitor, Users, Key, LayoutDashboard } from "lucide-react";
+import { Monitor, Users, Key, LayoutDashboard, NetworkIcon } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
 import Login from "./Login";
 
@@ -8,6 +8,7 @@ export function Layout() {
   const navItems = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard },
     { to: "/equipamentos", label: "Equipamentos", icon: Monitor },
+    { to: "/network", label: "Redes", icon: NetworkIcon },
     { to: "/colaboradores", label: "Colaboradores", icon: Users },
     { to: "/licencas", label: "Licenças", icon: Key },
   ];

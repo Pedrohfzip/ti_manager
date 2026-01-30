@@ -5,6 +5,7 @@ import EditEquipamento from "./components/EditEquipamento";
 import { Colaboradores } from "./components/Colaboradores";
 import { Licencas } from "./components/Licencas";
 import { Dashboard } from "./components/Dashboard";
+import  Network  from "./components/NetWork";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "equipamentos/editar", Component: EditEquipamento },
       { path: "colaboradores", Component: Colaboradores },
       { path: "licencas", Component: Licencas },
+      { path: "network", Component: Network },
     ],
   },
 ]);

@@ -119,7 +119,6 @@ export default function Equipamentos() {
                   { label: 'Name', key: 'name', width: 'w-32' },
                   { label: 'Tipo', key: 'type', width: 'w-24' },
                   { label: 'Colaborador', key: 'employee', width: 'w-32' },
-                  { label: 'IP', key: 'ip', width: 'w-24' },
                 ]).map((col) => (
                   <th
                     key={col.key}
@@ -159,9 +158,6 @@ export default function Equipamentos() {
                   </td>
                   <td className=" py-4 whitespace-nowrap">
                     <span className="text-gray-900 font-mono">{equipamento.employee}</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-gray-900 font-mono">{equipamento.ip}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">

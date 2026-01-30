@@ -5,21 +5,21 @@
     "username": "postgres",
     "password": "ezortea",
     "database": "managerti",
-    "host": "192.168.0.204",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "ezortea",
     "database": "managerti",
-    "host": "192.168.0.204",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
     "password": "ezortea",
     "database": "managerti",
-    "host": "192.168.0.204",
+    "host": "localhost",
     "dialect": "postgres"
   }
 }
