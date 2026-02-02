@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 // import { fetchColaboradores } from "../api/colaboradores";
 import { Plus, Search, Edit2, Trash2, Mail, Phone } from "lucide-react";
-
+import userProvider from "../providers/User";
 interface Colaborador {
   id: number;
   nome: string;
   email: string;
   telefone: string;
   cargo: string;
-  departamento: string;
+  departament: string;
   status: "Ativo" | "Inativo" | "Férias";
   dataAdmissao: string;
 }
@@ -23,8 +23,9 @@ export function Colaboradores() {
     const load = async () => {
       try {
         setLoading(true);
-        // const data = await fetchColaboradores();
-        // setColaboradores(data);
+        const data = await userProvider.getUsersAD();
+        console.log("Colaboradores carregados:", data);
+        setColaboradores(data);
       } catch (error) {
         console.error("Erro ao buscar colaboradores:", error);
       } finally {
@@ -96,7 +97,7 @@ export function Colaboradores() {
                   Colaborador
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contato
+                  Email
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Cargo
@@ -106,9 +107,6 @@ export function Colaboradores() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Admissão
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ações
@@ -129,12 +127,7 @@ export function Colaboradores() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-2 text-gray-900 text-sm">
-                        <Mail className="w-4 h-4 text-gray-400" />
                         {colaborador.email}
-                      </div>
-                      <div className="flex items-center gap-2 text-gray-600 text-sm">
-                        <Phone className="w-4 h-4 text-gray-400" />
-                        {colaborador.telefone}
                       </div>
                     </div>
                   </td>
@@ -142,7 +135,7 @@ export function Colaboradores() {
                     {colaborador.cargo}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                    {colaborador.departamento}
+                    {colaborador.departament}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
@@ -152,9 +145,6 @@ export function Colaboradores() {
                     >
                       {colaborador.status}
                     </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                    {colaborador.dataAdmissao}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">

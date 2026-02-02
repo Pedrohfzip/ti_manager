@@ -10,7 +10,6 @@ export function Layout() {
     { to: "/equipamentos", label: "Equipamentos", icon: Monitor },
     { to: "/network", label: "Redes", icon: NetworkIcon },
     { to: "/colaboradores", label: "Colaboradores", icon: Users },
-    { to: "/licencas", label: "Licenças", icon: Key },
   ];
 
 

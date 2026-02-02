@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Monitor, Users, Key, AlertCircle } from "lucide-react";
+import { getData as getDevicesData } from "../providers/Devices";
+import userProvider from "../providers/User";
 
 interface DashboardStats {
   equipamentos: number;
@@ -17,44 +19,46 @@ export function Dashboard() {
   });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDeviceCount = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const [equipamentosRes, colaboradoresRes, licencasRes] = await Promise.all([
-        fetch("http://localhost:8080/equipamentos"),
-        fetch("http://localhost:8080/colaboradores"),
-        fetch("http://localhost:8080/licencas"),
-      ]);
-
-      const equipamentos = await equipamentosRes.json();
-      const colaboradores = await colaboradoresRes.json();
-      const licencas = await licencasRes.json();
-
-      const licencasProximasVencimento = licencas.filter(
-        (l: any) => l.status === "Próximo ao Vencimento"
-      ).length;
-
-      setStats({
-        equipamentos: equipamentos.length,
-        colaboradores: colaboradores.filter((c: any) => c.status === "Ativo").length,
-        licencasAtivas: licencas.filter((l: any) => l.status === "Ativa").length,
-        alertas: licencasProximasVencimento,
-      });
+      const users = await userProvider.getUsersAD();
+      setStats((prev) => ({
+        ...prev,
+        equipamentos: Array.isArray(users) ? users.length : 0,
+      }));
     } catch (error) {
-      console.error("Erro ao buscar dados do dashboard:", error);
+      console.error("Erro ao buscar total de computadores:", error);
     } finally {
       setLoading(false);
     }
   };
 
+    const fetchUserCount = async () => {
+    setLoading(true);
+    try {
+      const users = await userProvider.getUsersAD();
+      setStats((prev) => ({
+        ...prev,
+        colaboradores: Array.isArray(users) ? users.length : 0,
+      }));
+    } catch (error) {
+      console.error("Erro ao buscar total de colaboradores:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchUserCount();
+    fetchDeviceCount();
+  }, []);
+
+
+
   const statsCards = [
     {
-      title: "Total de Equipamentos",
-      value: stats.equipamentos,
+      title: "Total de Computadores",
+      value: loading ? "..." : stats.equipamentos,
       icon: Monitor,
       color: "bg-blue-500",
     },
@@ -103,43 +107,14 @@ export function Dashboard() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Atividades Recentes</h2>
           <div className="space-y-4">
-            {[
-              { action: "Novo equipamento cadastrado", item: "Notebook Dell Latitude 5420", time: "Há 2 horas" },
-              { action: "Licença renovada", item: "Microsoft Office 365", time: "Há 5 horas" },
-              { action: "Colaborador adicionado", item: "Maria Silva - Desenvolvimento", time: "Há 1 dia" },
-              { action: "Equipamento em manutenção", item: "Desktop HP EliteDesk 800", time: "Há 2 dias" },
-            ].map((activity, index) => (
-              <div key={index} className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                <div className="flex-1">
-                  <p className="text-gray-800 font-medium">{activity.action}</p>
-                  <p className="text-gray-600 text-sm">{activity.item}</p>
-                  <p className="text-gray-400 text-xs mt-1">{activity.time}</p>
-                </div>
-              </div>
-            ))}
+            {/* Substitua por dados dinâmicos de atividades */}
           </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Licenças Próximas ao Vencimento</h2>
           <div className="space-y-4">
-            {[
-              { name: "Adobe Creative Cloud", expires: "15/02/2026", users: 12 },
-              { name: "AutoCAD 2024", expires: "28/02/2026", users: 5 },
-              { name: "Slack Premium", expires: "10/03/2026", users: 45 },
-              { name: "Zoom Business", expires: "22/03/2026", users: 30 },
-            ].map((license, index) => (
-              <div key={index} className="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                <div>
-                  <p className="text-gray-800 font-medium">{license.name}</p>
-                  <p className="text-gray-500 text-sm">{license.users} usuários</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-orange-600 font-medium text-sm">{license.expires}</p>
-                </div>
-              </div>
-            ))}
+            {/* Substitua por dados dinâmicos de licenças */}
           </div>
         </div>
       </div>

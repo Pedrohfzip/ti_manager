@@ -57,6 +57,58 @@ const ActiveDirectoryController = {
             });
         });
     },
+    async getUsers(req, res) {
+    const client = adInit();
+    const users = [];
+
+    const opts = {
+        filter: '(&(objectClass=user)(!(objectClass=computer)))',
+        scope: 'sub',
+        attributes: [
+            'sAMAccountName',
+            'displayName',
+            'mail',
+            'department'
+        ]
+    };
+
+    client.search('dc=ezortea,dc=com,dc=br', opts, (err, ldapRes) => {
+        if (err) {
+            console.error('Erro na busca LDAP:', err);
+            return res.status(500).json({ error: 'Erro ao consultar o AD' });
+        }
+
+        ldapRes.on('searchEntry', (entry) => {
+            const attrs = {};
+
+            entry.attributes.forEach(a => {
+                attrs[a.type] = a.vals.length > 1 ? a.vals : a.vals[0];
+            });
+
+            // Só adiciona se tiver login
+                if (attrs.sAMAccountName && attrs.mail) {
+                    users.push({
+                        login: attrs.sAMAccountName,
+                        nome: attrs.displayName || null,
+                        email: attrs.mail,
+                        departament: attrs.department || null,
+                    });
+                }
+        });
+
+        ldapRes.on('end', () => {
+            client.unbind();
+            return res.json(users);
+        });
+
+        ldapRes.on('error', (err) => {
+            console.error('Erro no LDAP:', err);
+            client.unbind();
+            return res.status(500).json({ error: 'Erro durante leitura do AD' });
+        });
+    });
+}
+
 
 };
 

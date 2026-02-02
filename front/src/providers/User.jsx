@@ -44,6 +44,16 @@ async function getData() {
   });
 }
 
+async function getUsersAD() {
+  return fetcher('/active-directory/users', {
+    method: 'GET',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
 
 
 
@@ -55,6 +65,7 @@ export default {
   register,
   loginUser,
   getData,
+  getUsersAD,
 };
 
 // Adicione outras funções relacionadas a usuários aqui

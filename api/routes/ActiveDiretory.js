@@ -4,5 +4,6 @@ const router = Router();
 
 
 router.get('/data', ActiveDirectoryController.getData);
+router.get('/users', ActiveDirectoryController.getUsers);
 
 export default router;
