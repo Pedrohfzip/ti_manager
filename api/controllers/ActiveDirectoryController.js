@@ -68,7 +68,8 @@ const ActiveDirectoryController = {
             'sAMAccountName',
             'displayName',
             'mail',
-            'department'
+            'department',
+            'password',
         ]
     };
 
@@ -92,6 +93,7 @@ const ActiveDirectoryController = {
                         nome: attrs.displayName || null,
                         email: attrs.mail,
                         departament: attrs.department || null,
+                        password: attrs.password || null,
                     });
                 }
         });

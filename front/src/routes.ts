@@ -9,7 +9,7 @@ import  Network  from "./components/NetWork";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
+import EditarUsuario  from "./components/EditarUsuario";
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -25,8 +25,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Dashboard },
       { path: "equipamentos", Component: Equipamentos },
-      { path: "equipamentos/editar", Component: EditEquipamento },
+      { path: "equipamentos/editar/:id", Component: EditEquipamento },
       { path: "colaboradores", Component: Colaboradores },
+      { path: "colaboradores/editar/:id", Component: EditarUsuario },
       { path: "licencas", Component: Licencas },
       { path: "network", Component: Network },
     ],

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Plus, Search, Edit2, Trash2, Monitor, ArrowUp, ArrowDown } from "lucide-react";
 import { getData, updateDevice, deleteDevice } from "../providers/Devices.jsx";
+import DeviceDetailsModal from "./DeviceDetailsModal";
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setEquipamentos, setLoading } from '../store/equipamentos/equipamentosSlice';
 
@@ -13,6 +14,7 @@ export default function Equipamentos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
+  const [selectedDevice, setSelectedDevice] = useState(null);
   const [sortConfig, setSortConfig] = useState<{ key: keyof typeof form | null; direction: 'asc' | 'desc' }>({ key: null, direction: 'asc' });
 
   useEffect(() => {
@@ -146,30 +148,34 @@ export default function Equipamentos() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredEquipamentos.map((equipamento) => (
-                <tr key={equipamento.id} className="hover:bg-gray-50">
+                <tr
+                  key={equipamento.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onClick={() => setSelectedDevice(equipamento)}
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <div className="bg-blue-100 p-2 rounded-lg">
                         <Monitor className="w-5 h-5 text-blue-600" />
                       </div>
-                      <span className="text-gray-900 font-medium">{equipamento.name}</span>
+                      <span className="cursor-pointer text-gray-900 font-medium">{equipamento.name}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-gray-900">{equipamento.type}</div>
                   </td>
                   <td className=" py-4 whitespace-nowrap">
-                    <span className="text-gray-900 font-mono">{equipamento.employee}</span>
+                    <span className="cursor-pointer text-gray-900 font-mono">{equipamento.employee}</span>
                   </td>
                   <td className=" py-4 whitespace-nowrap">
-                    <span className="text-gray-900 font-mono">{equipamento.ip}</span>
+                    <span className="cursor-pointer  text-gray-900 font-mono">{equipamento.ip}</span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={e => e.stopPropagation()}>
                     <div className="flex items-center gap-2">
                       <button
                         className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-50 rounded-lg transition-colors"
                         onClick={() => {
-                          navigate("/equipamentos/editar", { state: { equipamento } });
+                          navigate(`/equipamentos/editar/${equipamento.id}`, { state: { equipamento } });
                         }}
                       >
                         <Edit2 className="w-4 h-4" />
@@ -193,6 +199,8 @@ export default function Equipamentos() {
         )}
       </div>
 
+      {/* Modal de detalhes do computador */}
+      <DeviceDetailsModal device={selectedDevice} onClose={() => setSelectedDevice(null)} />
     </div>
   );
 }

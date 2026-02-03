@@ -16,12 +16,21 @@ const DeviceController = {
         }
         try {
             const devices = await db.Devices.findAll();
-            // Adiciona ipNumber ao resultado
-            const devicesWithIpNumber = devices.map(device => ({
-                ...device.toJSON(),
-                ipNumber: device.ip ? ipToNumber(device.ip) : null
-            }));
-            return res.status(200).json(devicesWithIpNumber);
+            // Busca todos os NetworkDatas para mapear ip -> mac
+            const networkDatas = await db.NetworkDatas.findAll();
+            const ipToMac = {};
+            networkDatas.forEach(nd => {
+                ipToMac[nd.ip] = nd.mac;
+            });
+            const devicesWithNetwork = devices.map(device => {
+                const d = device.toJSON();
+                return {
+                    ...d,
+                    ipNumber: d.ip ? ipToNumber(d.ip) : null,
+                    mac: d.ip && ipToMac[d.ip] ? ipToMac[d.ip] : null
+                };
+            });
+            return res.status(200).json(devicesWithNetwork);
         } catch (err) {
             return res.status(500).json({ message: err.message });
         }
